@@ -399,29 +399,29 @@ backup_local_files () {
     if (( $CONFIG_dryrun )); then
       case "${CONFIG_mysql_dump_compression}" in
 	  'gzip')
-	    echo "tar -czvf ${1}${suffix} ${CONFIG_backup_local_files[@]}";
+	    echo "gtar -czvf ${1}${suffix} -C / ${CONFIG_backup_local_files[@]}";
 	    ;;
 	  'bzip2')
-	    echo "tar -cjvf ${1}${suffix} ${CONFIG_backup_local_files[@]}";
+	    echo "gtar -cjvf ${1}${suffix} -C / ${CONFIG_backup_local_files[@]}";
 	    ;;
 	  *)
-	    echo "tar -cvf ${1}${suffix} ${CONFIG_backup_local_files[@]}";
+	    echo "gtar -cvf ${1}${suffix} -C / ${CONFIG_backup_local_files[@]}";
 	    ;;
       esac
-      echo "dry-running: tar -cv ${1} ${CONFIG_backup_local_files[@]}"
+      echo "dry-running: gtar -cv ${1} -C / ${CONFIG_backup_local_files[@]}"
       return 0;
     else
       case "${CONFIG_mysql_dump_compression}" in
 	  'gzip')
-	    tar -czvf "${1}${suffix}" "${CONFIG_backup_local_files[@]}";
+	    gtar -czvf "${1}${suffix}" -C / "${CONFIG_backup_local_files[@]}";
 	    return $?
 	    ;;
 	  'bzip2')
-	    tar -cjvf "${1}${suffix}" "${CONFIG_backup_local_files[@]}";
+	    gtar -cjvf "${1}${suffix}" -C / "${CONFIG_backup_local_files[@]}";
 	    return $?
 	    ;;
 	  *)
-	    tar -cvf "${1}${suffix}" "${CONFIG_backup_local_files[@]}";
+	    gtar -cvf "${1}${suffix}" -C / "${CONFIG_backup_local_files[@]}";
 	    return $?
 	    ;;
       esac
