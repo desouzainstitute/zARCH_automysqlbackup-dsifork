@@ -1728,7 +1728,10 @@ method_backup () {
 		tmp_flags=$?; var=; 
 		if (( $? == 0 )); then
 		  echo "success!"
-		  backupfiles=( "${backupfiles[@]}" "${CONFIG_backup_dir}/backup_local_files/bcf_weekly_${datetimestamp}_${date_weekno}.tar" )
+		  #Inserted files_postprocessing step to encrypt local file backups - mgancarz 2013_02_15
+		  files_postprocessing "${CONFIG_backup_dir}/backup_local_files/bcf_weekly_${datetimestamp}_${date_weekno}.tar${suffix}"
+          tmp_flags=$?; var=; (( $tmp_flags & $flags_files_postprocessing_success_encrypt )) && var=.enc
+		  backupfiles=( "${backupfiles[@]}" "${CONFIG_backup_dir}/backup_local_files/bcf_weekly_${datetimestamp}_${date_weekno}.tar${suffix}${var}" )
 		else
 		  let "E |= $E_backup_local_failed"
 		  echo "failed!"
